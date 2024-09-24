@@ -1,0 +1,423 @@
+$blue: #0088cc;
+$black: #000000;
+$greyBackground: #f0f0f0;
+$grey: #86868b;
+$white: #fff;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@mixin sectionBg() {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: $greyBackground;
+    padding: 2em;
+}
+
+@mixin text() {
+    color: $black;
+    font-weight: bold;
+    width: 100%;
+    font-size: 32px;
+}
+
+.section-1 {
+    @include sectionBg();
+
+    .welcome {
+        @include text();
+        text-align: left;
+        margin-bottom: -2em;
+        padding-left: 2em;
+    }
+
+    h3 {
+        @include text();
+        font-size: 250px;
+        text-align: center;
+        font-family: "Bakbak One", sans-serif;
+        text-shadow: 1px 3px 7px rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+        font-weight: normal;
+
+        span {
+            color: $blue;
+            font-family: "Bakbak One", sans-serif;
+            text-shadow: 1px 3px 7px rgba(0, 0, 0, 0.5);
+        }
+    }
+
+    .gateway {
+        @include text();
+        text-align: right;
+        margin-top: -2em;
+        padding-right: 1.5em;
+
+        span {
+            @include text();
+            color: $blue;
+        }
+    }
+
+    img {
+        object-fit: contain;
+        object-position: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: -6em;
+    }
+
+    button {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px 60px;
+        font-size: 32px;
+        margin-top: 1em;
+    }
+}
+
+.section-2 {
+    @include sectionBg();
+    gap: 2em;
+
+    h3 {
+        @include text();
+        text-align: center;
+        font-size: 55px;
+    }
+
+    .text {
+        @include text();
+        width: 100%;
+        text-align: center;
+        font-size: 28px;
+
+        span {
+            color: $grey;
+        }
+    }
+
+    img {
+        width: 65%;
+        height: auto;
+        object-fit: contain;
+        object-position: center;
+        margin: 5em auto 5em auto;
+    }
+}
+
+.section-3 {
+    @include sectionBg();
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2em;
+    padding: 1em 2em;
+    background-color: $white;
+
+    .left,
+    .right {
+        flex: 1;
+        padding: 2em;
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
+
+        h2 {
+            @include text();
+            text-align: center;
+            font-size: 55px;
+        }
+
+        p {
+            @include text();
+            text-align: center;
+            font-size: 23px;
+            line-height: 1.5em;
+
+            span {
+                color: $grey;
+            }
+        }
+
+        img {
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+            margin-left: -2.5em;
+        }
+    }
+
+    .left {
+        background-color: $black;
+
+        h2,
+        p {
+            color: $white;
+        }
+    }
+
+    .right {
+        background-color: $greyBackground;
+
+        h2,
+        p {
+            color: $black;
+        }
+    }
+}
+
+.section-4 {
+    @include sectionBg();
+    justify-content: center;
+    gap: 1em;
+    padding: 2em;
+
+    h2 {
+        @include text();
+        text-align: center;
+        font-size: 64px;
+    }
+
+    p {
+        @include text();
+        color: $grey;
+        font-size: 34px;
+        text-align: center;
+    }
+
+    button {
+        padding: 10px 60px;
+        font-size: 22px;
+        margin: 1em auto;
+    }
+
+    .img {
+        position: relative;
+        margin: 0 auto;
+        background-color: $greyBackground;
+        width: 100vw;
+        height: 580px;
+
+        img {
+            position: absolute;
+            width: 100vw;
+            height: 580px;
+            object-fit: contain;
+            object-position: center;
+            background-color: $greyBackground;
+            right: 3em;
+        }
+
+        .icons-main {
+            position: absolute;
+            width: 100vw;
+            top: 10em;
+            right: 1.5em;
+            display: flex;
+            justify-content: center;
+
+            .icons-sts {
+                width: 150px;
+                height: 100px;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                place-items: center;
+                gap: 1em;
+                margin: 0 auto;
+
+                a {
+                    img {
+                        width: 66px;
+                        height: 66px;
+                        object-fit: contain;
+                        object-position: center;
+                        position: static;
+                        background-color: transparent;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.section-5 {
+    @include text();
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    background-image: url("../../assests/Landing-Page/sec-5.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    h2 {
+        @include text();
+        text-align: center;
+        color: $white;
+        font-size: 64px;
+        text-shadow: 1px 3px 7px rgba(0, 0, 0, 0.8);
+        opacity: 0.8;
+    }
+
+    .contact-us {
+        @include text();
+        width: fit-content;
+        font-size: 45px;
+        color: $white;
+        opacity: 0.8;
+        border: 5px solid $white;
+        padding: 15px 70px;
+        border-radius: 100px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $white;
+            color: $black;
+        }
+    }
+}
+
+.footer {
+    @include sectionBg();
+    position: relative;
+    height: 100%;
+
+    img {
+        // height: 715px;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: $white;
+    }
+
+    .main {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .socials {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 1em;
+            margin-top: 24em;
+            margin-left: 5em;
+
+            a {
+                color: $white;
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                    margin-top: 1.3rem;
+                }
+            }
+        }
+
+        .desc {
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 1em;
+
+            img {
+                width: 400px;
+                margin-top: 22em;
+                margin-left: 15em;
+                background-color: $black;
+            }
+
+            p {
+                @include text();
+                width: 400px;
+                color: $white;
+                text-align: left;
+                font-size: 22px;
+                margin-top: 18em;
+                margin-left: 3.4em;
+            }
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 1em;
+            color: $white;
+            margin-top: 21.5em;
+            margin-left: 5em;
+
+            h2 {
+                font-size: 26px;
+            }
+
+            ul {
+                margin-top: 1.5em;
+
+                li {
+                    list-style-type: none;
+                    font-size: 22px;
+                    cursor: pointer;
+                    padding: 0.2em;
+                }
+            }
+        }
+
+        .contact {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 1em;
+            color: $white;
+            margin-top: 21.5em;
+            margin-left: 4em;
+
+            h2 {
+                font-size: 26px;
+            }
+
+            p {
+                margin-top: 1.5em;
+                font-size: 22px;
+                width: 350px;
+            }
+
+            a {
+                color: $white;
+            }
+        }
+
+        .copyright {
+            @include text();
+            font-size: 22px;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: 1em;
+        }
+    }
+}
