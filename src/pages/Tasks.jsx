@@ -6,156 +6,92 @@
 
 // export default function Tasks() {
 //   const [currentTime, setCurrentTime] = useState(new Date());
-//   const [filter, setFilter] = useState('All');
-//   const [tasks, setTasks] = useState([]);
+//   const [filter, setFilter] = useState('Email'); // Start with Email as the default filter
+//   const [emailTasks, setEmailTasks] = useState([]); // Separate state for email tasks
+//   const [otherTasks, setOtherTasks] = useState([]); // State for LinkedIn, WhatsApp, Google Maps
+//   const [loading, setLoading] = useState(false); // Handle loading state
+//   const [error, setError] = useState(false); // Handle error state
 //   const navigate = useNavigate();
 
-//   // const fetchTasks = async () => {
-//   //   try {
-//   //     // Fetch email task data
-//   //     const emailResponse = await axios.get('http://salesnexa.indenta.ai:8000/api/automation/email-automation/details/', {
-//   //       headers: {
-//   //         Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming your token is saved in local storage
-//   //       }
-//   //     });
-
-//   //     console.log("Email Response:", emailResponse.data); // Log the response to the console
-//   //     const emailData = emailResponse.data.details; // Adjust according to your actual API response structure
-
-//   //     // Construct tasks from email data
-//   //     const fetchedTasks = emailData.map((emailId) => ({
-//   //       id: emailId, // Assuming each email ID can be a unique identifier
-//   //       category: "Email",
-//   //       text: "Your Email Automation Task has been completed successfully. Click here to view the results.", // Use the email ID or other details
-//   //       url: "/email-automation",
-//   //       read: false,
-//   //     }));
-
-//   //     setTasks(fetchedTasks); // Update tasks with fetched tasks
-
-//   //   } catch (error) {
-//   //     console.error("Error fetching tasks", error);
-//   //   }
-//   // };
-
-//   // const fetchTasks = async () => {
-//   //   try {
-//   //     // Fetch email task data
-//   //     const emailResponse = await axios.get('http://salesnexa.indenta.ai:8000/api/automation/email-automation/details/', {
-//   //       headers: {
-//   //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-//   //       }
-//   //     });
-
-//   //     console.log("Email Response:", emailResponse.data);
-//   //     const emailData = emailResponse.data.details;
-
-//   //     const emailTasks = emailData.map((emailId) => ({
-//   //       id: emailId,
-//   //       category: "Email",
-//   //       text: "Your Email Automation Task has been completed successfully. Click here to view the results.",
-//   //       url: "/email-automation",
-//   //       read: false,
-//   //     }));
-
-//   //     // Fetch LinkedIn task data
-//   //     const linkedInResponse = await axios.get('http://salesnexa.indenta.ai:8000/api/scraper/linkedin-scraper/csv-file/', {
-//   //       headers: {
-//   //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-//   //       }
-//   //     });
-
-//   //     console.log("LinkedIn Response:", linkedInResponse.data);
-//   //     const linkedInData = linkedInResponse.data.response; // Adjust according to actual API structure
-
-//   //     const linkedInTasks = linkedInData.map((task, index) => ({
-//   //       id: `linkedin-${index}`,
-//   //       category: "LinkedIn",
-//   //       text: `Your LinkedIn scraping task is completed. Download the CSV file here.`,
-//   //       url: "/linkedin-scraper",
-//   //       read: false,
-//   //     }));
-
-//   //     // Combine email and LinkedIn tasks
-//   //     const allTasks = [...emailTasks, ...linkedInTasks];
-//   //     setTasks(allTasks);
-
-//   //   } catch (error) {
-//   //     console.error("Error fetching tasks", error);
-//   //   }
-//   // };
-//   const fetchTasks = async () => {
+//   const fetchEmailTasks = async () => {
 //     try {
-//       // Fetch email task data
 //       const emailResponse = await axios.get('http://salesnexa.indenta.ai:8000/api/automation/email-automation/details/', {
 //         headers: {
 //           Authorization: `Bearer ${localStorage.getItem("token")}`,
 //         }
 //       });
-
-//       console.log("Email Response:", emailResponse.data);
 //       const emailData = emailResponse.data.details;
-
-//       const emailTasks = emailData.map((emailId) => ({
+//       const fetchedEmailTasks = emailData.map((emailId) => ({
 //         id: emailId,
 //         category: "Email",
 //         text: "Your Email Automation Task has been completed successfully. Click here to view the results.",
 //         url: "/email-automation",
 //         read: false,
-//         timestamp: new Date(), // Add a timestamp
+//         timestamp: new Date(),
 //       }));
-
-//       // Fetch LinkedIn task data
-//       const linkedInResponse = await axios.get('http://salesnexa.indenta.ai:8000/api/scraper/linkedin-scraper/csv-file/', {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem("token")}`,
-//         }
-//       });
-
-//       console.log("LinkedIn Response:", linkedInResponse.data);
-//       const linkedInData = linkedInResponse.data.response;
-
-//       const linkedInTasks = linkedInData.map((task, index) => ({
-//         id: `linkedin-${index}`,
-//         category: "LinkedIn",
-//         text: `Your LinkedIn scraping task is completed. Download the CSV file here.`,
-//         url: "/linkedin-scraper",
-//         read: false,
-//         timestamp: new Date(), // Add a timestamp
-//       }));
-
-//       // Combine email and LinkedIn tasks
-//       const allTasks = [...emailTasks, ...linkedInTasks];
-
-//       // Sort tasks by timestamp (most recent first)
-//       allTasks.sort((a, b) => b.timestamp - a.timestamp);
-
-//       setTasks(allTasks);
-
+//       setEmailTasks(fetchedEmailTasks);
 //     } catch (error) {
-//       console.error("Error fetching tasks", error);
+//       console.error("Error fetching email tasks", error);
 //     }
 //   };
+
+//   const fetchOtherTasks = async (category) => {
+//     try {
+//       let otherResponse;
+//       switch (category) {
+//         case 'LinkedIn':
+//           otherResponse = await axios.get('http://salesnexa.indenta.ai:8000/api/scraper/linkedin-scraper/csv-file/', {
+//             headers: {
+//               Authorization: `Bearer ${localStorage.getItem("token")}`,
+//             }
+//           });
+//           const linkedInData = otherResponse.data.response;
+//           const fetchedLinkedInTasks = linkedInData.map((task, index) => ({
+//             id: `linkedin-${index}`,
+//             category: "LinkedIn",
+//             text: "Your LinkedIn scraping task is completed. Download the CSV file here.",
+//             url: "/linkedin-scraper",
+//             read: false,
+//             timestamp: new Date(),
+//           }));
+//           setOtherTasks(fetchedLinkedInTasks);
+//           break;
+
+//         // Add more cases for WhatsApp and Google Maps as needed
+//         case 'WhatsApp':
+//           // Fetch WhatsApp tasks
+//           break;
+
+//         case 'Google Maps':
+//           // Fetch Google Maps tasks
+//           break;
+
+//         default:
+//           break;
+//       }
+//     } catch (error) {
+//       console.error(`Error fetching ${category} tasks`, error);
+//     }
+//   };
+
 //   useEffect(() => {
-//     fetchTasks();
+//     fetchEmailTasks(); // Fetch email tasks once on mount
 
 //     const timer = setInterval(() => {
 //       setCurrentTime(new Date());
 //     }, 1000);
-
 //     return () => clearInterval(timer);
 //   }, []);
 
-//   const formattedTime = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-//   const formattedDay = currentTime.toLocaleDateString('en-US', { weekday: 'long' });
-
-//   // const filteredTasks = filter === 'All' ? tasks : tasks.filter(task => task.category === filter);
-//   const filteredTasks = tasks.filter(task => task.category === filter);
-
 //   const handleTaskClick = (url, index) => {
+//     const tasks = filter === 'Email' ? emailTasks : otherTasks;
 //     const updatedTasks = [...tasks];
 //     updatedTasks[index].read = true;
-//     setTasks(updatedTasks);
+//     if (filter === 'Email') {
+//       setEmailTasks(updatedTasks);
+//     } else {
+//       setOtherTasks(updatedTasks);
+//     }
 //     localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 
 //     Swal.fire({
@@ -167,10 +103,20 @@
 //       cancelButtonText: 'Close',
 //     }).then((result) => {
 //       if (result.isConfirmed) {
-//         navigate('/email-automation');
+//         navigate(url);
 //       }
 //     });
 //   };
+
+//   const handleFilterChange = (category) => {
+//     setFilter(category);
+//     fetchOtherTasks(category); // Fetch tasks for the selected category
+//   };
+
+//   const formattedTime = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+//   const formattedDay = currentTime.toLocaleDateString('en-US', { weekday: 'long' });
+
+//   const tasksToDisplay = filter === 'Email' ? emailTasks : otherTasks;
 
 //   return (
 //     <Box sx={{ background: 'linear-gradient(180deg, #EEEEEE 0%, #F5F5F5 100%)', padding: { xs: '1rem', sm: '2rem' } }}>
@@ -194,7 +140,7 @@
 //                 gap: { xs: '1rem', sm: '2rem', md: '3rem' },
 //               }}
 //             >
-//               {['Email', 'LinkedIn' , 'Google Maps' , 'WhatsApp'].map((label) => (
+//               {['Email', 'LinkedIn', 'WhatsApp', 'Google Maps'].map((label) => (
 //                 <ListItem
 //                   key={label}
 //                   disablePadding
@@ -203,7 +149,7 @@
 //                     width: 'auto',
 //                     cursor: 'pointer',
 //                   }}
-//                   onClick={() => setFilter(label)}
+//                   onClick={() => handleFilterChange(label)}
 //                 >
 //                   <ListItemText
 //                     sx={{
@@ -224,17 +170,20 @@
 //                   />
 //                 </ListItem>
 //               ))}
-//               {/* <Grid item xs={12} sm={6} sx={{ textAlign: { xs: 'center', sm: 'right' }, mt: { xs: 2, sm: 0 } }}> */}
-//               <Grid item xs={12} sm={6} sx={{marginLeft : 'auto', textAlign: { xs: 'center', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
+//               <Grid item xs={12} sm={6} sx={{ marginLeft: 'auto', textAlign: { xs: 'center', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
 //                 <List>
 //                   <ListItem>
 //                     <Button
-//                     sx={{marginLeft : 'auto'}}
+//                       sx={{ marginLeft: 'auto' }}
 //                       variant="outlined"
 //                       color="primary"
 //                       onClick={() => {
-//                         const updatedTasks = tasks.map((task) => ({ ...task, read: true }));
-//                         setTasks(updatedTasks);
+//                         const updatedTasks = tasksToDisplay.map((task) => ({ ...task, read: true }));
+//                         if (filter === 'Email') {
+//                           setEmailTasks(updatedTasks);
+//                         } else {
+//                           setOtherTasks(updatedTasks);
+//                         }
 //                         localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 //                       }}
 //                     >
@@ -249,7 +198,7 @@
 
 //         <Box component="section" sx={{ mt: 4 }}>
 //           <List sx={{ padding: 0 }}>
-//             {filteredTasks.map((task, index) => (
+//             {tasksToDisplay.map((task, index) => (
 //               <ListItem
 //                 key={task.id}
 //                 sx={{
@@ -290,66 +239,63 @@ export default function Tasks() {
   const [filter, setFilter] = useState('Email'); // Start with Email as the default filter
   const [emailTasks, setEmailTasks] = useState([]); // Separate state for email tasks
   const [otherTasks, setOtherTasks] = useState([]); // State for LinkedIn, WhatsApp, Google Maps
+  const [loading, setLoading] = useState(false); // Handle loading state
+  const [error, setError] = useState(false); // Handle error state
   const navigate = useNavigate();
 
   const fetchEmailTasks = async () => {
     try {
+      setLoading(true); // Set loading true when API call starts
+      setError(false); // Reset error state
+
       const emailResponse = await axios.get('http://salesnexa.indenta.ai:8000/api/automation/email-automation/details/', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         }
       });
+
+      console.log("API Response :", emailResponse);
       const emailData = emailResponse.data.details;
-      const fetchedEmailTasks = emailData.map((emailId) => ({
-        id: emailId,
-        category: "Email",
-        text: "Your Email Automation Task has been completed successfully. Click here to view the results.",
-        url: "/email-automation",
-        read: false,
-        timestamp: new Date(),
-      }));
+      console.log("API Response Detail:", emailData);
+
+      const fetchedEmailTasks = emailData.map((emailId) => {
+        let taskStatusMessage = "";
+        let taskStatus = emailId.status; // Assuming API returns 'status' field for task
+
+        console.log("Task ID:", emailId.id, "Status:", taskStatus);
+
+        switch (taskStatus) {
+          case 'pending':
+            taskStatusMessage = "Your Email Automation Task is currently in progress. You’ll be able to view the results once it's complete.";
+            break;
+          case 'completed':
+            taskStatusMessage = "Your Email Automation Task has been completed successfully. Click here to view the results.";
+            break;
+          case 'failed':
+            taskStatusMessage = "Your Email Automation Task has failed. Please try again.";
+            break;
+          default:
+            taskStatusMessage = "Unknown status";
+            break;
+        }
+
+        return {
+          id: emailId.id, // Assuming API returns id field
+          category: "Email",
+          text: taskStatusMessage,
+          url: taskStatus === 'completed' || taskStatus === 'failed' ? "/email-automation" : null, // Only clickable if resolved or rejected
+          read: false,
+          status: taskStatus,
+          timestamp: new Date(),
+        };
+      });
+
       setEmailTasks(fetchedEmailTasks);
     } catch (error) {
       console.error("Error fetching email tasks", error);
-    }
-  };
-
-  const fetchOtherTasks = async (category) => {
-    try {
-      let otherResponse;
-      switch (category) {
-        case 'LinkedIn':
-          otherResponse = await axios.get('http://salesnexa.indenta.ai:8000/api/scraper/linkedin-scraper/csv-file/', {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            }
-          });
-          const linkedInData = otherResponse.data.response;
-          const fetchedLinkedInTasks = linkedInData.map((task, index) => ({
-            id: `linkedin-${index}`,
-            category: "LinkedIn",
-            text: "Your LinkedIn scraping task is completed. Download the CSV file here.",
-            url: "/linkedin-scraper",
-            read: false,
-            timestamp: new Date(),
-          }));
-          setOtherTasks(fetchedLinkedInTasks);
-          break;
-
-        // Add more cases for WhatsApp and Google Maps as needed
-        case 'WhatsApp':
-          // Fetch WhatsApp tasks
-          break;
-
-        case 'Google Maps':
-          // Fetch Google Maps tasks
-          break;
-
-        default:
-          break;
-      }
-    } catch (error) {
-      console.error(`Error fetching ${category} tasks`, error);
+      setError(true); // Set error state
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
     }
   };
 
@@ -381,7 +327,7 @@ export default function Tasks() {
       confirmButtonText: 'New Task',
       cancelButtonText: 'Close',
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed && url) {
         navigate(url);
       }
     });
@@ -389,13 +335,21 @@ export default function Tasks() {
 
   const handleFilterChange = (category) => {
     setFilter(category);
-    fetchOtherTasks(category); // Fetch tasks for the selected category
+    setOtherTasks(category); // Fetch tasks for the selected category
   };
 
   const formattedTime = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const formattedDay = currentTime.toLocaleDateString('en-US', { weekday: 'long' });
 
   const tasksToDisplay = filter === 'Email' ? emailTasks : otherTasks;
+
+  if (loading) {
+    return <Typography>Loading tasks...</Typography>;
+  }
+
+  if (error) {
+    return <Typography>Error fetching tasks. Please try again.</Typography>;
+  }
 
   return (
     <Box sx={{ background: 'linear-gradient(180deg, #EEEEEE 0%, #F5F5F5 100%)', padding: { xs: '1rem', sm: '2rem' } }}>
@@ -485,12 +439,12 @@ export default function Tasks() {
                   padding: { xs: '1rem', sm: '1.5rem' },
                   borderBottom: '0.5px solid black',
                   justifyContent: 'space-between',
-                  cursor: 'pointer',
+                  cursor: task.url ? 'pointer' : 'not-allowed', // Only clickable if there's a URL
                   '&:hover': {
                     background: task.read ? '#D9D9D94D' : '#0AA2EE33',
                   },
                 }}
-                onClick={() => handleTaskClick(task.url, index)}
+                onClick={() => task.url && handleTaskClick(task.url, index)}
               >
                 <ListItemText
                   primary={task.text}
